@@ -63,7 +63,12 @@ docker stop rep && docker network rm rigtape
 
 No time to record? [`examples/pid/session.jsonl`](examples/pid/session.jsonl) is a recorded run
 of `client.py --sp 60 --reads 10`:
-`docker run --rm -p 127.0.0.1:5020:5020 rigtape replay examples/pid/session.jsonl`.
+
+```bash
+docker run --rm -d --name ex -p 127.0.0.1:5020:5020 rigtape replay examples/pid/session.jsonl
+python3 examples/pid/client.py --port 5020 --sp 60 --reads 10                     # PV 20.0 to 29.0 C, no device
+docker stop ex
+```
 
 Now break it on purpose. [`examples/pid/faults.yaml`](examples/pid/faults.yaml) slows a PV read
 by 1.5 s with probability 0.2 (seed `ci-42` makes that reads 1 and 3, every time), answers the

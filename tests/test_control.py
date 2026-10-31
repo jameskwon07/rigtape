@@ -34,6 +34,7 @@ async def http(port: int, request: bytes) -> tuple[int, dict[str, Any] | None, b
     writer.close()
     status = int(response.split(b" ", 2)[1])
     head, _, body = response.partition(b"\r\n\r\n")
+    assert body.endswith(b"\n")  # curl output ends its line
     assert b"connection: close" in head.lower()
     return status, json.loads(body) if body else None, response
 

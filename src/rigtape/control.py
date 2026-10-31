@@ -67,7 +67,7 @@ class ControlServer:
                 status, body = 400, {"error": f"bad request: {exc}"}
             except TimeoutError:  # before OSError: it is a subclass
                 status, body = 408, {"error": f"no complete request within {READ_TIMEOUT_S:g} s"}
-            payload = json.dumps(body).encode()
+            payload = json.dumps(body).encode() + b"\n"  # so curl leaves the prompt on its own line
             head = (
                 f"HTTP/1.1 {status} {HTTPStatus(status).phrase}\r\n"
                 f"content-type: application/json\r\ncontent-length: {len(payload)}\r\n"
