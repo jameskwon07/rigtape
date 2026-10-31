@@ -9,9 +9,11 @@ so your customer gets a tested fix, not a debug build.**
 > Works today: `rigtape serve` simulates a Modbus TCP device from a register map,
 > `rigtape record` records the traffic between your software and a real device,
 > `rigtape replay` answers from that recording with no device attached, and `--faults` makes
-> either one misbehave on purpose: delays, no response, exception responses, disconnects, with a
-> seed so CI sees the same faults every run, and a small HTTP API to switch them on and off.
-> Not yet: device restarts, split or garbage frames, RST, Modbus RTU, SCPI.
+> `serve` or `replay` misbehave on purpose: delays, no response, exception responses,
+> disconnects, with a seed so CI sees the same faults every run, and a small HTTP API to switch
+> them on and off.
+> Not yet: coils and discrete inputs in `serve`, device restarts, split or garbage frames, RST,
+> Modbus RTU, SCPI.
 
 rigtape is a headless Modbus TCP device simulator for testing control software without the
 hardware. It ships as one Docker image, so it runs the same on your laptop and in CI.

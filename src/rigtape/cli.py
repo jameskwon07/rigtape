@@ -122,10 +122,11 @@ def _command(
         metavar="PORT",
         help=f"Modbus TCP port (default {DEFAULT_PORT}; 0 picks a free port)",
     )
+    binds = "address to bind, Modbus and control API alike" if faults else "address to bind"
     parser.add_argument(
         "--host",
-        help=f"address to bind, Modbus and control API alike (default: $RIGTAPE_HOST, else "
-        f"{DEFAULT_HOST}; use an IP, not a name, with --listen 0)",
+        help=f"{binds} (default: $RIGTAPE_HOST, else {DEFAULT_HOST}; use an IP, not a name, "
+        "with --listen 0)",
     )
     return parser
 

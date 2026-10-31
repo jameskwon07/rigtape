@@ -37,6 +37,15 @@ def test_usage_error(argv: list[str], capsys: pytest.CaptureFixture[str]) -> Non
     assert err[1] == "hint: run 'rigtape --help' for usage"
 
 
+@pytest.mark.parametrize("command", ["serve", "record", "replay"])
+def test_help_names_the_control_api_only_where_it_exists(
+    command: str, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main([command, "--help"]) == 0
+    text = " ".join(capsys.readouterr().out.split())  # undo argparse line wrapping
+    assert ("control API" in text) == (command != "record")
+
+
 def test_python_dash_m() -> None:
     result = subprocess.run(
         [sys.executable, "-m", "rigtape", "--version"], capture_output=True, text=True, check=False

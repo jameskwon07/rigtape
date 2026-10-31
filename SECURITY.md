@@ -7,8 +7,9 @@ exist, to the latest release only.
 
 ## Reporting a vulnerability
 
-Please report vulnerabilities privately through GitHub: open the repository's **Security** tab and
-choose **Report a vulnerability**. Please do not open a public issue for a security problem.
+Please report vulnerabilities privately through GitHub's
+[private vulnerability reporting](https://github.com/jameskwon07/rigtape/security/advisories/new).
+Please do not open a public issue for a security problem.
 
 Include the rigtape version (`rigtape --version`) or commit, the command line, and the smallest
 input that shows the problem (device YAML, faults YAML, recording lines or the bytes sent).
