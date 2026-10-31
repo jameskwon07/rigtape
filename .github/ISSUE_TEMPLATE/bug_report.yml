@@ -1,0 +1,40 @@
+name: Bug report
+description: rigtape did something wrong or unexpected
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: "What happened, and what did you expect?"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: "Command line and input files"
+      description: "The rigtape command, and the smallest device.yaml, faults.yaml or recording lines that show the problem. Remove values you cannot share."
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: "rigtape version"
+      description: "Output of `rigtape --version`, or the commit you built from"
+    validations:
+      required: true
+  - type: dropdown
+    id: run
+    attributes:
+      label: "How do you run it?"
+      options:
+        - "Docker image"
+        - "uv / Python"
+        - "Other"
+    validations:
+      required: true
+  - type: textarea
+    id: client
+    attributes:
+      label: "Client software"
+      description: "What talks to rigtape (your application, a PLC, a library such as pymodbus or libmodbus), if it matters"

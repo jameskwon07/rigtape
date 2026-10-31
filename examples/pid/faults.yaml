@@ -1,0 +1,22 @@
+format: rigtape.faults/v1
+# Written for the rigtape README quick start; the rules are illustrative, not from any device.
+seed: ci-42                     # --seed overrides; if neither is set, one is generated and printed
+rules:                          # checked top to bottom; the first rule that fires wins
+  - name: slow-pv
+    type: delay
+    match: {function_codes: [4], address: [0, 0]}
+    probability: 0.2            # decided per matching request
+    delay_ms: 1500
+  - name: busy-on-third-sp-write
+    type: exception
+    match: {function_codes: [6, 16], address: [0, 0]}
+    after: 2                    # let the first 2 matching writes through
+    count: 1                    # then fire exactly once
+    code: 6                     # SERVER DEVICE BUSY
+  - name: hang
+    type: no_response           # not executed, no reply, connection stays open
+    enabled: false              # off at start: POST /faults/hang/enable
+  - name: cable-pull
+    type: disconnect            # not executed, connection closed with FIN
+    enabled: false
+    count: 1

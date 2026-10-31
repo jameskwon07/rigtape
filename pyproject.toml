@@ -1,0 +1,53 @@
+[project]
+name = "rigtape"
+version = "0.1.0"
+description = "Modbus TCP device simulator with record, replay and fault injection for testing control software."
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+dependencies = [
+    "h11>=0.16,<0.17",
+    "pydantic>=2.14,<3",
+    "pyyaml>=6.0.3,<7",
+]
+
+[project.scripts]
+rigtape = "rigtape.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4,<2.5",
+    "pymodbus>=3.15,<3.16", # test-only "real device"; never add extras ([development] pulls AGPL zuban)
+    "pytest>=9.1,<10",
+    "pytest-asyncio>=1.4,<2",
+    "pytest-timeout>=2.4,<2.5", # 2.5.0 is yanked
+    "ruff>=0.16,<0.17",
+    "types-pyyaml>=6.0.12",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+per-file-target-version = { "examples/**/*.py" = "py39" } # the demo client runs on stock python3
+
+[tool.ruff.lint]
+# Explicit list: ruff 0.16 grew the default set to 413 rules.
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "RUF", "ASYNC", "PT", "FA"]
+
+[tool.mypy]
+files = ["src"]
+strict = true
+python_version = "3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+timeout = 30
+xfail_strict = true
+markers = ["docker: needs a built image named by RIGTAPE_DOCKER_IMAGE"]

@@ -1,0 +1,15 @@
+format: rigtape.device/v1
+name: Virtual PID temperature controller
+source: >-
+  Written from scratch for the rigtape README quick start. Not based on any
+  vendor manual, proprietary document or captured traffic; the layout is illustrative.
+holding_registers:              # FC3 read, FC6/FC16 write; 0-based PDU addresses
+  - {name: sp, address: 0, value: 200}                          # setpoint, 0.1 degC per count
+  - {name: model_id, address: 10, value: 1001, readonly: true}  # writes -> exception 02
+input_registers:                # FC4 read
+  - {name: pv, address: 0, value: 200}                          # process value; equals sp, so nothing moves until a write
+behaviors:
+  - type: ramp                  # pv moves toward sp and never overshoots
+    register: pv
+    toward: sp
+    rate_per_s: 10              # 10 counts = 1.0 degC per second
